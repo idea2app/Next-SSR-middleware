@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "importHelpers": true,
+        "skipLibCheck": true,
+        "declaration": true,
+        "sourceMap": true,
+        "outDir": "dist"
+    },
+    "include": ["source/*.ts"],
+    "typedocOptions": {
+        "name": "Next SSR middleware",
+        "excludeExternals": true,
+        "excludePrivate": true,
+        "readme": "ReadMe.md"
+    }
+}

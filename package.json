@@ -1,0 +1,59 @@
+{
+    "name": "next-ssr-middleware",
+    "version": "0.5.0",
+    "license": "LGPL-3.0-or-later",
+    "author": "shiy2008@gmail.com",
+    "description": "Koa-like middlewares for Next.js Server Side Rendering",
+    "keywords": [
+        "koa",
+        "middleware",
+        "nextjs",
+        "ssr"
+    ],
+    "homepage": "https://idea2app.github.io/Next-SSR-middleware/",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/idea2app/Next-SSR-middleware.git"
+    },
+    "bugs": {
+        "url": "https://github.com/idea2app/Next-SSR-middleware/issues"
+    },
+    "source": "source/index.ts",
+    "types": "dist/index.d.ts",
+    "main": "dist/index.js",
+    "dependencies": {
+        "mobx-i18n": "^0.3.15",
+        "tslib": "^2.6.1",
+        "web-utility": "^4.1.0"
+    },
+    "peerDependencies": {
+        "next": ">=9.3"
+    },
+    "devDependencies": {
+        "@types/node": "^18.17.3",
+        "husky": "^8.0.3",
+        "koajax": "^0.8.4",
+        "lint-staged": "^13.2.3",
+        "next": "^12.3.4",
+        "open-cli": "^7.2.0",
+        "prettier": "^3.0.1",
+        "typedoc": "^0.24.8",
+        "typescript": "~5.1.6"
+    },
+    "prettier": {
+        "singleQuote": true,
+        "trailingComma": "none",
+        "arrowParens": "avoid",
+        "tabWidth": 4
+    },
+    "lint-staged": {
+        "*.{md,json,yml,ts}": "prettier --write"
+    },
+    "scripts": {
+        "prepare": "husky install",
+        "test": "lint-staged",
+        "build": "rm -rf dist/ docs/  &&  typedoc source/  &&  tsc",
+        "start": "typedoc  &&  open-cli docs/index.html",
+        "prepublishOnly": "npm test  &&  npm run build"
+    }
+}

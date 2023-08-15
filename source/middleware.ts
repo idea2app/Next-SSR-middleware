@@ -10,20 +10,26 @@ export async function errorLogger<
     I extends DataObject,
     O extends DataObject = {}
 >(
-    context: GetServerSidePropsContext<I>,
-    next: () => Promise<GetServerSidePropsResult<O>>
-): Promise<GetServerSidePropsResult<O>> {
-    try {
-        return await next();
-    } catch (error) {
-        console.error(error);
+    onNoFund?: (
+        context: GetServerSidePropsContext<I>
+    ) => GetServerSidePropsResult<O>
+) {
+    return (async (context, next) => {
+        try {
+            return await next();
+        } catch (error) {
+            console.error(error);
 
-        const { status } = error as HTTPError;
+            const { status } = error as HTTPError;
 
-        if (status === 404) return { notFound: true, props: {} as O };
+            if (status === 404)
+                return (
+                    onNoFund?.(context) ?? { notFound: true, props: {} as O }
+                );
 
-        throw error;
-    }
+            throw error;
+        }
+    }) as Middleware<I, O>;
 }
 
 export interface RouteProps<T extends ParsedUrlQuery = {}> {

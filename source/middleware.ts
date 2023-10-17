@@ -71,16 +71,19 @@ export function cache<I extends DataObject, O extends DataObject = {}>(
         if ((!data || expiredAt < Date.now()) && !cache.buffer) {
             console.time(title);
 
-            cache.buffer = next().then(data => {
-                delete cache.buffer;
-                cache.data = data;
-                cache.expiredAt = Date.now() + interval;
+            cache.buffer = next()
+                .then(data => {
+                    cache.data = data;
+                    cache.expiredAt = Date.now() + interval;
 
-                console.timeEnd(title);
-                console.log(cache);
+                    console.log(cache);
 
-                return data;
-            });
+                    return data;
+                })
+                .finally(() => {
+                    delete cache.buffer;
+                    console.timeEnd(title);
+                });
         }
         return data || cache.buffer;
     }) as Middleware<I, O>;

@@ -28,7 +28,7 @@ import { User, UserModel } from '../../model/User';
 type UserDetailPageProps = User & JWTProps & RouterProps;
 
 export const getServerSideProps = compose<{ id: string }, UserDetailPageProps>(
-    jwtVerifier(),
+    jwtVerifier(), // set `JWT_SECRET` in `.env.local` first
     cache(),
     errorLogger,
     router,

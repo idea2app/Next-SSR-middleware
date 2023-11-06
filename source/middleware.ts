@@ -58,7 +58,7 @@ export interface JWTProps<T extends DataObject = {}> {
 
 export function jwtVerifier<I extends DataObject, O extends DataObject = {}>(
     tokenKey = 'token',
-    secretKey = 'JWT_TOKEN',
+    secretKey = 'JWT_SECRET',
     options: VerifyOptions = {}
 ): Middleware<I, O & JWTProps> {
     return async ({ req: { url, cookies } }, next) => {

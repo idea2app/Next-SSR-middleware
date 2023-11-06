@@ -1,8 +1,9 @@
+import { JwtPayload, VerifyOptions, verify } from 'jsonwebtoken';
+import { HTTPError } from 'koajax';
 import { TranslationModel, parseLanguageHeader } from 'mobx-i18n';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { Second } from 'web-utility';
-import { HTTPError } from 'koajax';
 
 import { DataObject, Middleware } from './compose';
 
@@ -49,6 +50,32 @@ export async function router<I extends DataObject, O extends DataObject = {}>(
             )
         }
     } as GetServerSidePropsResult<RouteProps<I> & O>;
+}
+
+export interface JWTProps<T extends DataObject = {}> {
+    jwtPayload?: JwtPayload & T;
+}
+
+export function jwtVerifier<I extends DataObject, O extends DataObject = {}>(
+    tokenKey = 'token',
+    secretKey = 'JWT_TOKEN',
+    options: VerifyOptions = {}
+): Middleware<I, O & JWTProps> {
+    return async ({ req: { url, cookies } }, next) => {
+        const token = cookies[tokenKey];
+
+        try {
+            var jwtPayload = verify(token, process.env[secretKey], options);
+        } catch (error) {
+            console.error(url, error);
+        }
+        const data = await next();
+
+        if ('props' in data && jwtPayload)
+            data.props['jwtPayload'] = jwtPayload;
+
+        return data;
+    };
 }
 
 interface AsyncCache {

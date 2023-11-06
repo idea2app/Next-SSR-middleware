@@ -12,12 +12,23 @@
 ### `pages/user/[id].tsx`
 
 ```tsx
-import { InferGetServerSidePropsType } from 'next';
+import {
+    JWTProps,
+    RouterProps,
+    jwtVerifier,
+    cache,
+    errorLogger,
+    router,
+    translator
+} from 'next-ssr-middleware';
 
 import i18n from '../../model/Translation';
 import { User, UserModel } from '../../model/User';
 
-export const getServerSideProps = compose<{ id: string }, User>(
+type UserDetailPageProps = User & JWTProps & RouterProps;
+
+export const getServerSideProps = compose<{ id: string }, UserDetailPageProps>(
+    jwtVerifier(),
     cache(),
     errorLogger,
     router,
@@ -30,12 +41,16 @@ export const getServerSideProps = compose<{ id: string }, User>(
 );
 
 export default function UserDetailPage({
+    jwtPayload,
+    route,
     name,
     summary
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: UserDetailPageProps) {
     return (
         <>
-            <h1>{name}</h1>
+            <h1>
+                {name} - {route.params!.id}
+            </h1>
             <p>{summary}</p>
         </>
     );

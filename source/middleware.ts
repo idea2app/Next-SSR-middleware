@@ -3,7 +3,7 @@ import { HTTPError } from 'koajax';
 import { TranslationModel, parseLanguageHeader } from 'mobx-i18n';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { Second } from 'web-utility';
+import { Day, Second } from 'web-utility';
 
 import { DataObject, Middleware } from './compose';
 
@@ -87,8 +87,15 @@ interface AsyncCache {
 const serverRenderCache: Record<string, AsyncCache> = {};
 
 export function cache<I extends DataObject, O extends DataObject = {}>(
-    interval = 30 * Second
+    oneInterval = 30 * Second,
+    allInterval = Day
 ) {
+    function cleanCache() {
+        for (const [URI, { expiredAt }] of Object.entries(serverRenderCache))
+            if (Date.now() - expiredAt > allInterval)
+                delete serverRenderCache[URI];
+    }
+
     return (async (context, next) => {
         const { resolvedUrl } = context;
         const cache = (serverRenderCache[resolvedUrl] ||= {}),
@@ -101,7 +108,7 @@ export function cache<I extends DataObject, O extends DataObject = {}>(
             cache.buffer = next()
                 .then(data => {
                     cache.data = data;
-                    cache.expiredAt = Date.now() + interval;
+                    cache.expiredAt = Date.now() + oneInterval;
 
                     console.log(cache);
 
@@ -109,6 +116,8 @@ export function cache<I extends DataObject, O extends DataObject = {}>(
                 })
                 .finally(() => {
                     delete cache.buffer;
+                    cleanCache();
+
                     console.timeEnd(title);
                 });
         }

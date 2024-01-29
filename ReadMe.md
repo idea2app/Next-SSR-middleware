@@ -7,6 +7,13 @@
 
 [![NPM](https://nodei.co/npm/next-ssr-middleware.png?downloads=true&downloadRank=true&stars=true)][5]
 
+## Versions
+
+| SemVer  |    status    |    MobX     | [MobX i18n][6] |
+| :-----: | :----------: | :---------: | :------------: |
+| `>=0.7` | ✅developing |  `>=6.11`   |    `>=0.5`     |
+| `<0.7`  | ❌deprecated | `>=4 <6.11` |     `<0.5`     |
+
 ## Usage
 
 ### `pages/user/[id].tsx`
@@ -66,3 +73,4 @@ export default function UserDetailPage({
 [3]: https://libraries.io/npm/next-ssr-middleware
 [4]: https://github.com/idea2app/Next-SSR-middleware/actions/workflows/main.yml
 [5]: https://nodei.co/npm/next-ssr-middleware/
+[6]: https://github.com/idea2app/MobX-i18n

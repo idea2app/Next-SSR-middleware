@@ -14,6 +14,16 @@
 | `>=0.7` | ✅developing |  `>=6.11`   |    `>=0.5`     |
 | `<0.7`  | ❌deprecated | `>=4 <6.11` |     `<0.5`     |
 
+## Middlewares
+
+1. Router
+2. Error logger
+3. JWT verifier
+4. Props cache
+5. i18n loader
+6. OAuth 2 signer (with common providers)
+    1. GitHub
+
 ## Usage
 
 ### `pages/user/[id].tsx`
@@ -67,6 +77,9 @@ export default function UserDetailPage({
 ## Cases
 
 1. https://github.com/idea2app/Next-Bootstrap-ts
+2. https://github.com/kaiyuanshe/kaiyuanshe.github.io
+3. https://github.com/kaiyuanshe/OpenHackathon-Web
+4. https://github.com/kaiyuanshe/OSS-toolbox
 
 [1]: https://koajs.com/
 [2]: https://nextjs.org/

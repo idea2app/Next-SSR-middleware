@@ -5,7 +5,7 @@ import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { Day, Second } from 'web-utility';
 
-import { DataObject, Middleware } from './compose';
+import { DataObject, Middleware } from '../compose';
 
 export async function errorLogger<
     I extends DataObject,
@@ -129,13 +129,12 @@ export function translator<I extends DataObject, O extends DataObject = {}>(
     i18n: TranslationModel<string, string>
 ): Middleware<I, O> {
     return async (
-        context: GetServerSidePropsContext<I>,
+        { req: { headers, cookies } }: GetServerSidePropsContext<I>,
         next: () => Promise<GetServerSidePropsResult<O>>
     ) => {
-        const { language = '' } = context.req.cookies,
-            languages = parseLanguageHeader(
-                context.req.headers['accept-language'] || ''
-            );
+        const { language = '' } = cookies,
+            languages = parseLanguageHeader(headers['accept-language'] || '');
+
         await i18n.loadLanguages([language, ...languages].filter(Boolean));
 
         return next();

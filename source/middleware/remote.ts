@@ -20,7 +20,8 @@ export interface OAuth2Props<T extends DataObject> {
     user: T;
 }
 
-const Host = process.env.VERCEL_URL || 'http://127.0.0.1:3000';
+const { VERCEL_URL } = process.env;
+const Host = VERCEL_URL ? `https://${VERCEL_URL}` : 'http://127.0.0.1:3000';
 
 export function oauth2Signer<I extends DataObject, O extends DataObject = {}>({
     signInURL,

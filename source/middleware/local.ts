@@ -19,7 +19,7 @@ export async function errorLogger<
     } catch (error) {
         console.error(error);
 
-        const { status } = error as HTTPError;
+        const { status } = (error as HTTPError).response;
 
         if (status === 404) return { notFound: true, props: {} as O };
 

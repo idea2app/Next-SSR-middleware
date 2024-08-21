@@ -105,15 +105,12 @@ export function githubOAuth2<I extends DataObject, O extends DataObject = {}>({
 }: GitHubOAuthOption) {
     return oauth2Signer<I, O>({
         signInURL: redirect_uri =>
-            new URL(
-                `login/oauth/authorize?${buildURLData({
-                    client_id,
-                    scope: scopes?.join(' '),
-                    allow_signup,
-                    redirect_uri
-                })}`,
-                rootBaseURL
-            ) + '',
+            `https://github.com/login/oauth/authorize?${buildURLData({
+                client_id,
+                scope: scopes?.join(' '),
+                allow_signup,
+                redirect_uri
+            })}`,
         accessToken: async ({ code }) => {
             const response = await fetch(
                 new URL('login/oauth/access_token', rootBaseURL),

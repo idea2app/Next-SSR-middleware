@@ -1,6 +1,6 @@
 {
     "name": "next-ssr-middleware",
-    "version": "0.8.5",
+    "version": "0.8.7",
     "license": "LGPL-3.0-or-later",
     "author": "shiy2008@gmail.com",
     "description": "Koa-like middlewares for Next.js Server Side Rendering",
@@ -36,7 +36,7 @@
         "husky": "^9.1.5",
         "koajax": "^2.0.0",
         "lint-staged": "^15.2.9",
-        "next": "^14.2.5",
+        "next": "^14.2.6",
         "open-cli": "^8.0.0",
         "prettier": "^3.3.3",
         "typedoc": "^0.26.6",

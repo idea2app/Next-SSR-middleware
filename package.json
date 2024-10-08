@@ -1,6 +1,6 @@
 {
     "name": "next-ssr-middleware",
-    "version": "0.8.7",
+    "version": "0.8.8",
     "license": "LGPL-3.0-or-later",
     "author": "shiy2008@gmail.com",
     "description": "Koa-like middlewares for Next.js Server Side Rendering",
@@ -23,24 +23,25 @@
     "main": "dist/index.js",
     "dependencies": {
         "jsonwebtoken": "^9.0.2",
-        "mobx-i18n": "^0.5.0",
-        "tslib": "^2.6.3",
+        "tslib": "^2.7.0",
         "web-utility": "^4.4.0"
     },
     "peerDependencies": {
+        "mobx-i18n": ">=0.5 <1",
         "next": ">=9.3"
     },
     "devDependencies": {
-        "@types/jsonwebtoken": "^9.0.6",
-        "@types/node": "^18.19.45",
-        "husky": "^9.1.5",
-        "koajax": "^2.0.0",
-        "lint-staged": "^15.2.9",
-        "next": "^14.2.6",
+        "@types/jsonwebtoken": "^9.0.7",
+        "@types/node": "^20.16.11",
+        "husky": "^9.1.6",
+        "koajax": "^3.0.2",
+        "lint-staged": "^15.2.10",
+        "mobx-i18n": "^0.6.0",
+        "next": "^14.2.14",
         "open-cli": "^8.0.0",
         "prettier": "^3.3.3",
-        "typedoc": "^0.26.6",
-        "typescript": "~5.5.4"
+        "typedoc": "^0.26.8",
+        "typescript": "~5.6.2"
     },
     "prettier": {
         "singleQuote": true,

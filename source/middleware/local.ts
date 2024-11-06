@@ -98,12 +98,13 @@ export function cache<I extends DataObject, O extends DataObject = {}>(
     }
 
     return (async (context, next) => {
-        const { resolvedUrl } = context;
+        const { resolvedUrl, req } = context;
         const cache = (serverRenderCache[resolvedUrl] ||= {}),
+            noCache = req.headers['cache-control'] === 'no-cache',
             title = `[SSR cache] ${resolvedUrl}`;
         const { data, expiredAt = 0 } = cache;
 
-        if ((!data || expiredAt < Date.now()) && !cache.buffer) {
+        if ((!data || expiredAt < Date.now() || noCache) && !cache.buffer) {
             console.time(title);
 
             cache.buffer = next()

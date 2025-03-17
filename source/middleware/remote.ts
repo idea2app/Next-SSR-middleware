@@ -4,7 +4,7 @@ import { DataObject, Middleware } from '../compose';
 
 export type OAuth2Ticket = {
     code: string;
-    state?: string;
+    state: string;
     [key: string]: string;
 };
 
@@ -31,18 +31,19 @@ export function oauth2Signer<I extends DataObject, O extends DataObject = {}>({
 }: OAuth2Option): Middleware<I, O> {
     return async ({ req: { url, headers, cookies }, query, res }, next) => {
         const token = cookies[tokenKey];
-        const pageURL = new URL(url || '/', headers['origin'] || Host) + '';
+        const pageURL = new URL(url || '/', headers['origin'] || Host);
 
         if (query.code) {
-            const token = await accessToken(query as OAuth2Ticket);
+            const token = await accessToken(query as OAuth2Ticket),
+                { searchParams } = pageURL;
 
             res.setHeader('Set-Cookie', `token=${token}; Path=/`);
 
+            searchParams.delete('code');
+            if (searchParams.get('state') === '') searchParams.delete('state');
+
             return {
-                redirect: {
-                    destination: pageURL.split('?')[0],
-                    permanent: false
-                },
+                redirect: { destination: pageURL + '', permanent: false },
                 props: {} as O
             };
         }

@@ -10,7 +10,6 @@
     "typedocOptions": {
         "name": "Next SSR middleware",
         "excludeExternals": true,
-        "excludePrivate": true,
-        "readme": "ReadMe.md"
+        "excludePrivate": true
     }
 }

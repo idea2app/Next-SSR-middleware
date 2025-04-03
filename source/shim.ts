@@ -12,12 +12,8 @@ import { ParsedUrlQuery } from 'querystring';
 import type { ReactNode } from 'react';
 
 /**
- * Matcher ignoring `/_next/`, `/api/` & icons
+ * @see {@link https://www.propelauth.com/post/getting-url-in-next-server-components}
  */
-export const middlewareMatcher = [
-    '/((?!api|_next/static|_next/image|favicon.ico|apple-icon|icon).*)'
-];
-
 export function patchHeaders(request: NextRequest) {
     const resolvedUrl = request.nextUrl + '',
         { locale, defaultLocale = '', domainLocale } = request.nextUrl,
@@ -57,11 +53,12 @@ export const withMiddleware =
             cookie = await cookies(),
             { isEnabled } = await draftMode();
 
-        const resolvedUrl = header.get('x-resolved-url') || '',
+        const url = header.get('x-resolved-url') || '',
             locale = header.get('x-locale') || '',
             locales = header.get('x-locales')?.split(',') || [],
             defaultLocale = header.get('x-default-locale') || '';
         const req = {
+            url,
             headers: Object.fromEntries([...header]),
             cookies: Object.fromEntries(
                 cookie.getAll().map(({ name, value }) => [name, value])
@@ -76,7 +73,7 @@ export const withMiddleware =
             preview: false,
             previewData: {} as PreviewData,
             draftMode: isEnabled,
-            resolvedUrl,
+            resolvedUrl: url,
             locale,
             locales,
             defaultLocale

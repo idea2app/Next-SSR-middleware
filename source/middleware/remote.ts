@@ -29,16 +29,15 @@ export function oauth2Signer<I extends DataObject, O extends DataObject = {}>({
     userProfile,
     tokenKey = 'token'
 }: OAuth2Option): Middleware<I, O> {
-    return async ({ req: { url, headers, cookies }, query, res }, next) => {
-        const token = cookies[tokenKey];
+    return async ({ req: { url, headers }, query }, next) => {
+        const token = query[tokenKey];
         const pageURL = new URL(url || '/', headers['origin'] || Host);
 
         if (query.code) {
             const token = await accessToken(query as OAuth2Ticket),
                 { searchParams } = pageURL;
 
-            res.setHeader('Set-Cookie', `token=${token}; Path=/`);
-
+            searchParams.set(tokenKey, token);
             searchParams.delete('code');
             if (searchParams.get('state') === '') searchParams.delete('state');
 
@@ -49,7 +48,7 @@ export function oauth2Signer<I extends DataObject, O extends DataObject = {}>({
         }
         if (token)
             try {
-                const user = await userProfile(token),
+                const user = await userProfile(token + ''),
                     data = await next();
                 const props =
                     'props' in data

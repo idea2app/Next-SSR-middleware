@@ -83,10 +83,14 @@ export default function UserDetailPage({
 
 ```ts
 import { NextRequest, NextResponse } from 'next/server';
-import { middlewareMatcher, parseHeaders } from 'next-ssr-middleware';
+import { parseHeaders } from 'next-ssr-middleware';
 
-export const config = { matcher: middlewareMatcher };
-
+export const config = {
+    // Matcher ignoring `/_next/`, `/api/` & icons
+    matcher: [
+        '/((?!api|_next/static|_next/image|favicon.ico|apple-icon|icon).*)'
+    ]
+};
 export const middleware = ({ headers }: NextRequest) =>
     NextResponse.next({ headers: parseHeaders(headers) });
 ```

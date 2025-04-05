@@ -1,6 +1,8 @@
 {
     "compilerOptions": {
+        "downlevelIteration": true,
         "importHelpers": true,
+        "lib": ["ESNext", "DOM", "DOM.Iterable"],
         "skipLibCheck": true,
         "declaration": true,
         "sourceMap": true,

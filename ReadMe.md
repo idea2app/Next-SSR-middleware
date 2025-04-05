@@ -9,10 +9,11 @@
 
 ## Versions
 
-| SemVer  |    status    |    MobX     | [MobX i18n][6] |
-| :-----: | :----------: | :---------: | :------------: |
-| `>=0.7` | ✅developing |  `>=6.11`   |    `>=0.5`     |
-| `<0.7`  | ❌deprecated | `>=4 <6.11` |     `<0.5`     |
+|    SemVer    |    status    |  Next.js  |    MobX     | [MobX i18n][6] |
+| :----------: | :----------: | :-------: | :---------: | :------------: |
+|   `>=0.9`    | ✅developing |  `>=15`   |  `>=6.11`   |    `>=0.5`     |
+| `>=0.7 <0.9` | ❌deprecated | `>=9 <15` |  `>=6.11`   |    `>=0.5`     |
+|    `<0.7`    | ❌deprecated | `>=9 <15` | `>=4 <6.11` |     `<0.5`     |
 
 ## Middlewares
 
@@ -26,7 +27,9 @@
 
 ## Usage
 
-### `pages/user/[id].tsx`
+### Page router
+
+#### `pages/user/[id].tsx`
 
 ```tsx
 import {
@@ -69,6 +72,51 @@ export default function UserDetailPage({
                 {name} - {route.params!.id}
             </h1>
             <p>{summary}</p>
+        </>
+    );
+}
+```
+
+### App router
+
+#### `middleware.ts`
+
+```ts
+import { NextRequest, NextResponse } from 'next/server';
+import { parseHeaders } from 'next-ssr-middleware';
+
+export const config = {
+    // Matcher ignoring `/_next/`, `/api/` & icons
+    matcher: [
+        '/((?!api|_next/static|_next/image|favicon.ico|apple-icon|icon).*)'
+    ]
+};
+export const middleware = ({ headers }: NextRequest) =>
+    NextResponse.next({ headers: parseHeaders(headers) });
+```
+
+#### `app/page.tsx`
+
+```tsx
+import { compose, withMiddleware, ServerProps } from 'next-ssr-middleware';
+
+const getServerSideProps = compose(async () => {
+    const props = await (
+        await fetch('https://api.github.com/orgs/idea2app')
+    ).json();
+
+    return { props };
+});
+
+const HomePage = withMiddleware(getServerSideProps, Home);
+
+export default HomePage;
+
+async function Home({ params, searchParams, ...props }: ServerProps) {
+    return (
+        <>
+            <h1>Home</h1>
+            <pre>{JSON.stringify(props, null, 4)}</pre>
         </>
     );
 }

@@ -44,7 +44,7 @@ export type ServerComponent<
 export const withMiddleware =
     <I extends Record<string, string> = {}, O extends object = {}>(
         getServerSideProps: GetServerSideProps<O, I>,
-        ServerSideComponent: ServerComponent<I, O>
+        serverComponent: ServerComponent<I, O>
     ): ServerComponent<I> =>
     async ({ params, searchParams }) => {
         const resolvedParams = await params,
@@ -94,6 +94,6 @@ export const withMiddleware =
         if ('props' in result) {
             const props = await result.props;
 
-            return ServerSideComponent({ params, searchParams, ...props });
+            return serverComponent({ params, searchParams, ...props });
         }
     };

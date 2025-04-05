@@ -21,7 +21,7 @@ export interface OAuth2Props<T extends DataObject> {
 }
 
 const DOMAIN = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-const Host = DOMAIN ? `https://${DOMAIN}` : 'http://127.0.0.1:3000';
+const Host = DOMAIN ? `https://${DOMAIN}` : 'http://localhost:3000';
 
 export function oauth2Signer<I extends DataObject, O extends DataObject = {}>({
     signInURL,
@@ -46,17 +46,14 @@ export function oauth2Signer<I extends DataObject, O extends DataObject = {}>({
                 props: {} as O
             };
         }
-        if (token)
-            try {
-                const user = await userProfile(token + ''),
-                    data = await next();
-                const props =
-                    'props' in data
-                        ? { ...data.props, token, user }
-                        : ({} as O);
+        if (token) {
+            const user = await userProfile(token + ''),
+                data = await next();
+            const props =
+                'props' in data ? { ...data.props, token, user } : ({} as O);
 
-                return { ...data, props };
-            } catch {}
+            return { ...data, props };
+        }
 
         return {
             redirect: {

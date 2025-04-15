@@ -11,7 +11,7 @@ export type OAuth2Ticket = {
 export interface OAuth2Option {
     signInURL: (pageURL: string) => string;
     accessToken: (ticket: OAuth2Ticket) => Promise<string>;
-    userProfile: (token: string) => Promise<DataObject>;
+    userProfile?: (token: string) => Promise<DataObject>;
     tokenKey?: string;
 }
 
@@ -29,8 +29,8 @@ export function oauth2Signer<I extends DataObject, O extends DataObject = {}>({
     userProfile,
     tokenKey = 'token'
 }: OAuth2Option): Middleware<I, O> {
-    return async ({ req: { url, headers }, query }, next) => {
-        const token = query[tokenKey];
+    return async ({ req: { url, headers, cookies }, query }, next) => {
+        const token = cookies[tokenKey] || query[tokenKey];
         const pageURL = new URL(url || '/', headers['origin'] || Host);
 
         if (query.code) {
@@ -47,7 +47,7 @@ export function oauth2Signer<I extends DataObject, O extends DataObject = {}>({
             };
         }
         if (token) {
-            const user = await userProfile(token + ''),
+            const user = await userProfile?.(token + ''),
                 data = await next();
             const props =
                 'props' in data ? { ...data.props, token, user } : ({} as O);

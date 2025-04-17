@@ -29,15 +29,18 @@ export function oauth2Signer<I extends DataObject, O extends DataObject = {}>({
     userProfile,
     tokenKey = 'token'
 }: OAuth2Option): Middleware<I, O> {
-    return async ({ req: { url, headers, cookies }, query }, next) => {
+    return async ({ req: { url, headers, cookies }, query, res }, next) => {
         const token = cookies[tokenKey] || query[tokenKey];
         const pageURL = new URL(url || '/', headers['origin'] || Host);
 
         if (query.code) {
             const token = await accessToken(query as OAuth2Ticket),
                 { searchParams } = pageURL;
-
-            searchParams.set(tokenKey, token);
+            try {
+                res.setHeader('Set-Cookie', `${tokenKey}=${token}; Path=/`);
+            } catch {
+                searchParams.set(tokenKey, token);
+            }
             searchParams.delete('code');
             if (searchParams.get('state') === '') searchParams.delete('state');
 

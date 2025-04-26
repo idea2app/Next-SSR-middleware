@@ -8,6 +8,18 @@ importers:
 
   .:
     dependencies:
+      '@types/jsonwebtoken':
+        specifier: ^9.0.9
+        version: 9.0.9
+      '@types/koa':
+        specifier: ^2.15.0
+        version: 2.15.0
+      '@types/koa__router':
+        specifier: ^12.0.4
+        version: 12.0.4
+      '@types/react':
+        specifier: '>=18'
+        version: 19.1.2
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -57,19 +69,6 @@ importers:
       typescript:
         specifier: ~5.8.3
         version: 5.8.3
-    optionalDependencies:
-      '@types/jsonwebtoken':
-        specifier: ^9.0.9
-        version: 9.0.9
-      '@types/koa':
-        specifier: ^2.15.0
-        version: 2.15.0
-      '@types/koa__router':
-        specifier: ^12.0.4
-        version: 12.0.4
-      '@types/react':
-        specifier: '>=18'
-        version: 19.1.2
 
 packages:
 
@@ -1369,21 +1368,17 @@ snapshots:
   '@types/accepts@1.3.7':
     dependencies:
       '@types/node': 22.15.2
-    optional: true
 
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
       '@types/node': 22.15.2
-    optional: true
 
   '@types/connect@3.4.38':
     dependencies:
       '@types/node': 22.15.2
-    optional: true
 
-  '@types/content-disposition@0.5.8':
-    optional: true
+  '@types/content-disposition@0.5.8': {}
 
   '@types/cookies@0.9.0':
     dependencies:
@@ -1391,7 +1386,6 @@ snapshots:
       '@types/express': 5.0.1
       '@types/keygrip': 1.0.6
       '@types/node': 22.15.2
-    optional: true
 
   '@types/express-serve-static-core@5.0.6':
     dependencies:
@@ -1399,38 +1393,31 @@ snapshots:
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
-    optional: true
 
   '@types/express@5.0.1':
     dependencies:
       '@types/body-parser': 1.19.5
       '@types/express-serve-static-core': 5.0.6
       '@types/serve-static': 1.15.7
-    optional: true
 
   '@types/hast@3.0.4':
     dependencies:
       '@types/unist': 3.0.3
 
-  '@types/http-assert@1.5.6':
-    optional: true
+  '@types/http-assert@1.5.6': {}
 
-  '@types/http-errors@2.0.4':
-    optional: true
+  '@types/http-errors@2.0.4': {}
 
   '@types/jsonwebtoken@9.0.9':
     dependencies:
       '@types/ms': 2.1.0
       '@types/node': 22.15.2
-    optional: true
 
-  '@types/keygrip@1.0.6':
-    optional: true
+  '@types/keygrip@1.0.6': {}
 
   '@types/koa-compose@3.2.8':
     dependencies:
       '@types/koa': 2.15.0
-    optional: true
 
   '@types/koa@2.15.0':
     dependencies:
@@ -1442,46 +1429,37 @@ snapshots:
       '@types/keygrip': 1.0.6
       '@types/koa-compose': 3.2.8
       '@types/node': 22.15.2
-    optional: true
 
   '@types/koa__router@12.0.4':
     dependencies:
       '@types/koa': 2.15.0
-    optional: true
 
-  '@types/mime@1.3.5':
-    optional: true
+  '@types/mime@1.3.5': {}
 
-  '@types/ms@2.1.0':
-    optional: true
+  '@types/ms@2.1.0': {}
 
   '@types/node@22.15.2':
     dependencies:
       undici-types: 6.21.0
 
-  '@types/qs@6.9.18':
-    optional: true
+  '@types/qs@6.9.18': {}
 
-  '@types/range-parser@1.2.7':
-    optional: true
+  '@types/range-parser@1.2.7': {}
 
   '@types/react@19.1.2':
     dependencies:
       csstype: 3.1.3
-    optional: true
 
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
       '@types/node': 22.15.2
-    optional: true
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
       '@types/node': 22.15.2
       '@types/send': 0.17.4
-    optional: true
 
   '@types/unist@3.0.3': {}
 
@@ -1618,8 +1596,7 @@ snapshots:
     dependencies:
       type-fest: 1.4.0
 
-  csstype@3.1.3:
-    optional: true
+  csstype@3.1.3: {}
 
   debug@4.4.0:
     dependencies:

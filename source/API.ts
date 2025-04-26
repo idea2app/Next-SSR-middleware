@@ -28,12 +28,12 @@ export function withKoa<S, C>(...parameters: any[]) {
 }
 
 export const pageApiRouteOf = (path: string) =>
-    path
+    decodeURI(path)
         .match(/pages(\/api\/.+)\.(j|t)s/)?.[1]
         ?.split('/[')[0]
         ?.replace(/\/index$/, '');
 
-export const createRouter = <S, C extends RouterParamContext<S>>(
+export const createKoaRouter = <S, C extends RouterParamContext<S>>(
     moduleURI: string,
     option?: RouterOptions
 ) => new Router<S, C>({ ...option, prefix: pageApiRouteOf(moduleURI) });

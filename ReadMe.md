@@ -1,6 +1,6 @@
 # Next SSR middleware
 
-[Koa][1]-like middlewares for [Next.js][2] **Server Side Rendering**
+[Koa][1]-like middlewares for [Next.js][2] **Back-end API** & **Server Side Rendering**
 
 [![NPM Dependency](https://img.shields.io/librariesio/github/idea2app/Next-SSR-middleware.svg)][3]
 [![CI & CD](https://github.com/idea2app/Next-SSR-middleware/actions/workflows/main.yml/badge.svg)][4]
@@ -122,12 +122,38 @@ async function Home({ params, searchParams, ...props }: ServerProps) {
 }
 ```
 
+### API router
+
+Located in [`pages/api/` of a Next.js project][7] or [`api/` of a Vercel serverless project][8].
+
+#### `pages/api/echo.ts`
+
+```ts
+import { createKoaRouter, withKoaRouter } from 'next-ssr-middleware';
+
+export const config = { api: { bodyParser: false } };
+
+const router = createKoaRouter(import.meta.url);
+
+router
+    .get('/', async context => {
+        context.body = context.request.query;
+    })
+    .post('/', async context => {
+        context.status = 201;
+        context.body = Reflect.get(context.request, 'body');
+    });
+
+export default withKoaRouter(router);
+```
+
 ## Cases
 
 1. https://github.com/idea2app/Next-Bootstrap-ts
-2. https://github.com/kaiyuanshe/kaiyuanshe.github.io
-3. https://github.com/kaiyuanshe/OpenHackathon-Web
-4. https://github.com/kaiyuanshe/OSS-toolbox
+2. https://github.com/FreeCodeCamp-Chengdu/FreeCodeCamp-Chengdu.github.io
+3. https://github.com/kaiyuanshe/kaiyuanshe.github.io
+4. https://github.com/kaiyuanshe/OpenHackathon-Web
+5. https://github.com/kaiyuanshe/OSS-toolbox
 
 [1]: https://koajs.com/
 [2]: https://nextjs.org/
@@ -135,3 +161,5 @@ async function Home({ params, searchParams, ...props }: ServerProps) {
 [4]: https://github.com/idea2app/Next-SSR-middleware/actions/workflows/main.yml
 [5]: https://nodei.co/npm/next-ssr-middleware/
 [6]: https://github.com/idea2app/MobX-i18n
+[7]: https://github.com/idea2app/Lark-Next-Bootstrap-ts/tree/main/pages/api
+[8]: https://github.com/idea2app/Vercel-Node-serverless/tree/master/api

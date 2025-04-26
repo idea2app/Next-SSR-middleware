@@ -1,9 +1,9 @@
 {
     "name": "next-ssr-middleware",
-    "version": "0.9.2",
+    "version": "0.10.0",
     "license": "LGPL-3.0-or-later",
     "author": "shiy2008@gmail.com",
-    "description": "Koa-like middlewares for Next.js Server Side Rendering",
+    "description": "Koa-like middlewares for Next.js Back-end API & Server Side Rendering",
     "keywords": [
         "koa",
         "middleware",
@@ -22,27 +22,37 @@
     "types": "dist/index.d.ts",
     "main": "dist/index.js",
     "dependencies": {
-        "jsonwebtoken": "^9.0.2",
+        "@types/jsonwebtoken": "^9.0.9",
+        "@types/koa": "^2.15.0",
+        "@types/koa__router": "^12.0.4",
+        "@types/react": ">=18",
         "tslib": "^2.8.1",
         "web-utility": "^4.4.3"
     },
     "peerDependencies": {
-        "@types/react": ">=18",
+        "@koa/bodyparser": ">=5",
+        "@koa/router": ">=13",
+        "jsonwebtoken": ">=9",
+        "koa": ">=2",
         "mobx-i18n": ">=0.5 <1",
-        "next": ">=9.3"
+        "next": ">=9.3",
+        "react": ">=18"
     },
     "devDependencies": {
-        "@types/jsonwebtoken": "^9.0.9",
-        "@types/node": "^22.14.1",
+        "@koa/bodyparser": "^5.1.1",
+        "@koa/router": "^13.1.0",
+        "@types/node": "^22.15.2",
         "@types/react": "^19.1.2",
         "husky": "^9.1.7",
+        "jsonwebtoken": "^9.0.2",
+        "koa": "^2.16.1",
         "koajax": "^3.1.2",
         "lint-staged": "^15.5.1",
         "mobx-i18n": "^0.6.0",
-        "next": "^15.3.0",
+        "next": "^15.3.1",
         "open-cli": "^8.0.0",
         "prettier": "^3.5.3",
-        "typedoc": "^0.28.2",
+        "typedoc": "^0.28.3",
         "typescript": "~5.8.3"
     },
     "prettier": {

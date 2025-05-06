@@ -1,6 +1,5 @@
 import { JwtPayload, VerifyOptions, verify } from 'jsonwebtoken';
 import { HTTPError } from 'koajax';
-import { TranslationModel, parseLanguageHeader } from 'mobx-i18n';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { Day, Second } from 'web-utility';
@@ -125,20 +124,4 @@ export function cache<I extends DataObject, O extends DataObject = {}>(
         }
         return data || cache.buffer;
     }) as Middleware<I, O>;
-}
-
-export function translator<I extends DataObject, O extends DataObject = {}>(
-    i18n: TranslationModel<string, string>
-): Middleware<I, O> {
-    return async (
-        { req: { headers, cookies } }: GetServerSidePropsContext<I>,
-        next: () => Promise<GetServerSidePropsResult<O>>
-    ) => {
-        const { language = '' } = cookies,
-            languages = parseLanguageHeader(headers['accept-language'] || '');
-
-        await i18n.loadLanguages([language, ...languages].filter(Boolean));
-
-        return next();
-    };
 }

@@ -11,6 +11,7 @@
 
 |    SemVer    |    status    |  Next.js  |    MobX     | [MobX i18n][6] |
 | :----------: | :----------: | :-------: | :---------: | :------------: |
+|   `>=1.0`    | ✅developing |  `>=15`   |  `>=6.11`   |       ❌       |
 |   `>=0.9`    | ✅developing |  `>=15`   |  `>=6.11`   |    `>=0.5`     |
 | `>=0.7 <0.9` | ❌deprecated | `>=9 <15` |  `>=6.11`   |    `>=0.5`     |
 |    `<0.7`    | ❌deprecated | `>=9 <15` | `>=4 <6.11` |     `<0.5`     |
@@ -21,7 +22,7 @@
 2. Error logger
 3. JWT verifier
 4. Props cache
-5. i18n loader
+5. ~~i18n loader~~ (use [MobX-i18n utility][7] directly)
 6. OAuth 2 signer (with common providers)
     1. GitHub
 
@@ -38,11 +39,9 @@ import {
     jwtVerifier,
     cache,
     errorLogger,
-    router,
-    translator
+    router
 } from 'next-ssr-middleware';
 
-import i18n from '../../model/Translation';
 import { User, UserModel } from '../../model/User';
 
 type UserDetailPageProps = User & JWTProps & RouterProps;
@@ -52,7 +51,6 @@ export const getServerSideProps = compose<{ id: string }, UserDetailPageProps>(
     cache(),
     errorLogger,
     router,
-    translator(i18n),
     async ({ params }) => {
         const props = await new UserModel().getOne(params!.id);
 
@@ -124,7 +122,7 @@ async function Home({ params, searchParams, ...props }: ServerProps) {
 
 ### API router
 
-Located in [`pages/api/` of a Next.js project][7] or [`api/` of a Vercel serverless project][8].
+Located in [`pages/api/` of a Next.js project][8] or [`api/` of a Vercel serverless project][9].
 
 #### `pages/api/echo.ts`
 
@@ -150,10 +148,11 @@ export default withKoaRouter(router);
 ## Cases
 
 1. https://github.com/idea2app/Next-Bootstrap-ts
-2. https://github.com/FreeCodeCamp-Chengdu/FreeCodeCamp-Chengdu.github.io
-3. https://github.com/kaiyuanshe/kaiyuanshe.github.io
-4. https://github.com/kaiyuanshe/OpenHackathon-Web
-5. https://github.com/kaiyuanshe/OSS-toolbox
+2. https://github.com/idea2app/Lark-Next-Bootstrap-ts
+3. https://github.com/FreeCodeCamp-Chengdu/FreeCodeCamp-Chengdu.github.io
+4. https://github.com/kaiyuanshe/kaiyuanshe.github.io
+5. https://github.com/kaiyuanshe/OpenHackathon-Web
+6. https://github.com/kaiyuanshe/OSS-toolbox
 
 [1]: https://koajs.com/
 [2]: https://nextjs.org/
@@ -161,5 +160,6 @@ export default withKoaRouter(router);
 [4]: https://github.com/idea2app/Next-SSR-middleware/actions/workflows/main.yml
 [5]: https://nodei.co/npm/next-ssr-middleware/
 [6]: https://github.com/idea2app/MobX-i18n
-[7]: https://github.com/idea2app/Lark-Next-Bootstrap-ts/tree/main/pages/api
-[8]: https://github.com/idea2app/Vercel-Node-serverless/tree/master/api
+[7]: https://github.com/idea2app/MobX-i18n#server-side-rendering-nextjs-example
+[8]: https://github.com/idea2app/Lark-Next-Bootstrap-ts/tree/main/pages/api
+[9]: https://github.com/idea2app/Vercel-Node-serverless/tree/master/api

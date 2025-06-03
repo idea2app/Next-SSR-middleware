@@ -54,7 +54,7 @@ export function withKoaRouter<S, C extends RouterParamContext<S>>(
     let router: Router<S, C>;
     let middlewares: Middleware<S, C>[] = [];
 
-    if (typeof parameters[1] === 'function')
+    if (!parameters[1] || typeof parameters[1] === 'function')
         [router, ...middlewares] = parameters;
     else [option, router, ...middlewares] = parameters;
 

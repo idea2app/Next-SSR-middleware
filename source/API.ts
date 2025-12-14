@@ -1,5 +1,10 @@
 import BodyParser from '@koa/bodyparser';
-import Router, { RouterOptions, RouterParamContext } from '@koa/router';
+import {
+    Router,
+    RouterOptions,
+    RouterContext,
+    RouterInstance
+} from '@koa/router';
 import Koa, { Middleware } from 'koa';
 
 export type KoaOption = ConstructorParameters<typeof Koa>[0];
@@ -33,25 +38,25 @@ export const pageApiRouteOf = (path: string) =>
         ?.split('/[')[0]
         ?.replace(/\/index$/, '');
 
-export const createKoaRouter = <S, C extends RouterParamContext<S>>(
+export const createKoaRouter = <S, C extends RouterContext<S>>(
     moduleURI: string,
     option?: RouterOptions
 ) => new Router<S, C>({ ...option, prefix: pageApiRouteOf(moduleURI) });
 
-export function withKoaRouter<S, C extends RouterParamContext<S>>(
-    router: Router<S, C>,
+export function withKoaRouter<S, C extends RouterContext<S>>(
+    router: RouterInstance<S, C>,
     ...middlewares: Middleware<S, C>[]
 ): KoaCallback;
-export function withKoaRouter<S, C extends RouterParamContext<S>>(
+export function withKoaRouter<S, C extends RouterContext<S>>(
     option: KoaOption,
-    router: Router<S, C>,
+    router: RouterInstance<S, C>,
     ...middlewares: Middleware<S, C>[]
 ): KoaCallback;
-export function withKoaRouter<S, C extends RouterParamContext<S>>(
+export function withKoaRouter<S, C extends RouterContext<S>>(
     ...parameters: any[]
 ) {
     let option: KoaOption | undefined;
-    let router: Router<S, C>;
+    let router: RouterInstance<S, C>;
     let middlewares: Middleware<S, C>[] = [];
 
     if (!parameters[1] || typeof parameters[1] === 'function')

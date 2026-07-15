@@ -1,0 +1,4 @@
+autoInstallPeers: false
+allowBuilds:
+  core-js: true
+  sharp: true

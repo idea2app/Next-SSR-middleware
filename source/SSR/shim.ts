@@ -1,7 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { NextApiRequestCookies } from 'next/dist/server/api-utils';
-import { cookies, draftMode, headers } from 'next/headers';
-import { permanentRedirect, redirect } from 'next/navigation';
 import { NextRequest } from 'next/server';
 import {
     GetServerSideProps,
@@ -47,6 +45,8 @@ export const withMiddleware =
         serverComponent: ServerComponent<I, O>
     ): ServerComponent<I> =>
     async ({ params, searchParams }) => {
+        const { headers, cookies, draftMode } = await import('next/headers');
+
         const resolvedParams = await params,
             resolvedSearchParams = await searchParams,
             header = await headers(),
@@ -81,6 +81,9 @@ export const withMiddleware =
         const result = await getServerSideProps(context);
 
         if ('redirect' in result) {
+            const { redirect, permanentRedirect } =
+                await import('next/navigation');
+
             const isPermanent =
                 'statusCode' in result.redirect
                     ? result.redirect.statusCode === 308

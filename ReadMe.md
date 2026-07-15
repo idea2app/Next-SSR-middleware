@@ -11,7 +11,7 @@
 
 |    SemVer     |    status    |  Next.js  |    MobX     | [MobX i18n][6] |  Koa  |
 | :-----------: | :----------: | :-------: | :---------: | :------------: | :---: |
-|     `>=1`     | ✅developing |  `>=15`   |     ❌      |       ❌       | `>=2` |
+|     `>=1`     | ✅developing |  `>=15`   |     ❌      |       ❌       | `3.x` |
 |  `>=0.10 <1`  | ❌deprecated |  `>=15`   |  `>=6.11`   |    `>=0.5`     | `2.x` |
 | `>=0.9 <0.10` | ✅developing |  `>=15`   |  `>=6.11`   |    `>=0.5`     |  ❌   |
 | `>=0.7 <0.9`  | ❌deprecated | `>=9 <15` |  `>=6.11`   |    `>=0.5`     |  ❌   |
@@ -159,7 +159,7 @@ export default withKoaRouter(router);
 [2]: https://nextjs.org/
 [3]: https://libraries.io/npm/next-ssr-middleware
 [4]: https://github.com/idea2app/Next-SSR-middleware/actions/workflows/main.yml
-[5]: https://nodei.co/npm/next-ssr-middleware/
+[5]: https://npm.im/next-ssr-middleware/
 [6]: https://github.com/idea2app/MobX-i18n
 [7]: https://github.com/idea2app/MobX-i18n#server-side-rendering-nextjs-example
 [8]: https://github.com/idea2app/Lark-Next-Bootstrap-ts/tree/main/pages/api

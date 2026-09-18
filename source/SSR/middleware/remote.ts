@@ -1,5 +1,6 @@
 import { buildURLData } from 'web-utility';
 
+import { CurrentHost } from '../../utility';
 import { DataObject, Middleware } from '../compose';
 
 export type OAuth2Ticket = {
@@ -19,20 +20,6 @@ export interface OAuth2Props<T extends DataObject> {
     token: string;
     user: T;
 }
-
-const {
-    NODE_ENV,
-    VERCEL_ENV = NODE_ENV,
-    VERCEL_URL,
-    VERCEL_PROJECT_PRODUCTION_URL
-} = process.env;
-
-export const RemoteDomain =
-    VERCEL_ENV === 'production' ? VERCEL_PROJECT_PRODUCTION_URL : VERCEL_URL;
-
-export const CurrentHost = RemoteDomain
-    ? `https://${RemoteDomain}`
-    : 'http://localhost:3000';
 
 export function oauth2Signer<I extends DataObject, O extends DataObject = {}>({
     signInURL,

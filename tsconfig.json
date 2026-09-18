@@ -6,7 +6,7 @@
         "skipLibCheck": true,
         "declaration": true,
         "sourceMap": true,
-        "rootDir": ".",
+        "rootDir": "source",
         "outDir": "dist"
     },
     "include": ["source/*.ts"],

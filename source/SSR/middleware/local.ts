@@ -1,10 +1,12 @@
-import { JwtPayload, VerifyOptions, verify } from 'jsonwebtoken';
+import type { JwtPayload, VerifyOptions } from 'jsonwebtoken';
 import { HTTPError } from 'koajax';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { Day, Second } from 'web-utility';
 
 import { DataObject, Middleware } from '../compose';
+
+const JWT = import('jsonwebtoken').then(module => module.default || module);
 
 export async function errorLogger<
     I extends DataObject,
@@ -66,6 +68,8 @@ export function jwtVerifier<I extends DataObject, O extends DataObject = {}>(
             secret = process.env[secretKey] || '';
         let jwtPayload: (JwtPayload & I) | undefined;
         try {
+            const { verify } = await JWT;
+
             jwtPayload = verify(token, secret, options) as JwtPayload & I;
         } catch (error) {
             console.error(url, error);

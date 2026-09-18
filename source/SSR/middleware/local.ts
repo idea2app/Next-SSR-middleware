@@ -62,17 +62,18 @@ export function jwtVerifier<I extends DataObject, O extends DataObject = {}>(
     options: VerifyOptions = {}
 ): Middleware<I, O & JWTProps> {
     return async ({ req: { url, cookies } }, next) => {
-        const token = cookies[tokenKey];
-
+        const token = cookies[tokenKey] || '',
+            secret = process.env[secretKey] || '';
+        let jwtPayload: (JwtPayload & I) | undefined;
         try {
-            var jwtPayload = verify(token, process.env[secretKey], options);
+            jwtPayload = verify(token, secret, options) as JwtPayload & I;
         } catch (error) {
             console.error(url, error);
         }
         const data = await next();
 
         if ('props' in data && jwtPayload)
-            data.props['jwtPayload'] = jwtPayload;
+            (data.props as O & JWTProps<I>)['jwtPayload'] = jwtPayload;
 
         return data;
     };
@@ -91,7 +92,9 @@ export function cache<I extends DataObject, O extends DataObject = {}>(
     allInterval = Day
 ) {
     function cleanCache() {
-        for (const [URI, { expiredAt }] of Object.entries(serverRenderCache))
+        for (const [URI, { expiredAt = 0 }] of Object.entries(
+            serverRenderCache
+        ))
             if (Date.now() - expiredAt > allInterval)
                 delete serverRenderCache[URI];
     }

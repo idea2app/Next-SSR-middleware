@@ -20,8 +20,19 @@ export interface OAuth2Props<T extends DataObject> {
     user: T;
 }
 
-const DOMAIN = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-const Host = DOMAIN ? `https://${DOMAIN}` : 'http://localhost:3000';
+const {
+    NODE_ENV,
+    VERCEL_ENV = NODE_ENV,
+    VERCEL_URL,
+    VERCEL_PROJECT_PRODUCTION_URL
+} = process.env;
+
+export const RemoteDomain =
+    VERCEL_ENV === 'production' ? VERCEL_PROJECT_PRODUCTION_URL : VERCEL_URL;
+
+export const CurrentHost = RemoteDomain
+    ? `https://${RemoteDomain}`
+    : 'http://localhost:3000';
 
 export function oauth2Signer<I extends DataObject, O extends DataObject = {}>({
     signInURL,
@@ -31,7 +42,7 @@ export function oauth2Signer<I extends DataObject, O extends DataObject = {}>({
 }: OAuth2Option): Middleware<I, O> {
     return async ({ req: { url, headers, cookies }, query, res }, next) => {
         const token = cookies[tokenKey] || query[tokenKey];
-        const pageURL = new URL(url || '/', headers['origin'] || Host);
+        const pageURL = new URL(url || '/', headers['origin'] || CurrentHost);
 
         if (query.code) {
             const token = await accessToken(query as OAuth2Ticket),
@@ -89,7 +100,8 @@ export type GitHubOAuthScope =
  * @see {@link https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#web-application-flow}
  */
 export interface GitHubOAuthOption
-    extends Partial<Record<'rootBaseURL' | 'apiBaseURL' | 'login', string>>,
+    extends
+        Partial<Record<'rootBaseURL' | 'apiBaseURL' | 'login', string>>,
         Record<'client_id' | 'client_secret', string> {
     scopes?: GitHubOAuthScope[];
     allow_signup?: boolean;
